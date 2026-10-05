@@ -49,3 +49,15 @@ next-env.d.ts
 skills-lock.json
 CLAUDE.md
 AGENTS.md
+
+# Playwright (reportes y resultados de pruebas)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+# Playwright MCP output (snapshots y screenshots)
+.playwright-mcp/
+# Configuracion MCP de otros agentes
+.codex/
+opencode.json

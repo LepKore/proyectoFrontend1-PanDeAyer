@@ -30,4 +30,28 @@ Tiene tres vistas según el rol: **estudiante**, **docente** y **administrador**
 
 ## Scripts
 
-`npm run dev` · `npm run build` · `npm run start` · `npm run lint`
+`npm run dev` · `npm run build` · `npm run start` · `npm run lint` · `npm run test:e2e`
+
+## Pruebas y detección de bugs (Playwright)
+
+Las pruebas end-to-end están en `tests/e2e` y levantan el frontend solas (`playwright.config.ts`):
+
+```
+npx playwright install chromium   # solo la primera vez
+npm run test:e2e                  # corre todo
+npm run test:e2e:ui               # modo interactivo
+npm run test:e2e:report           # abre el último reporte HTML
+```
+
+- `login.spec.ts`: login y redirecciones de sesión con la API simulada (`page.route`). No necesita backend.
+- `bugs.spec.ts`: cada prueba describe el comportamiento **correcto**; si falla, el bug sigue presente.
+- `roles.spec.ts`: entra con cada usuario de prueba y recorre todas las pantallas de su menú buscando errores. Necesita el backend encendido; si está apagado, se salta.
+
+### MCP de Playwright
+
+El agente de IA puede manejar el navegador para explorar la app y encontrar bugs con el servidor MCP `@playwright/mcp`:
+
+- Claude Code: `.mcp.json` + `.claude/settings.local.json`
+- OpenCode: `opencode.json` · Codex: `.codex/config.toml`
+
+`npm run mcp` lo arranca a mano y `npm run mcp:inspect` abre el inspector. Las capturas que genera quedan en `.playwright-mcp/` (ignorada por git).
