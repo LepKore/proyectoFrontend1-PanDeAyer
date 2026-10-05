@@ -18,7 +18,11 @@ export function Modal({ open, title, onClose, children }: { open: boolean; title
     <dialog
       ref={ref}
       onClose={onClose}
-      onCancel={(e) => e.preventDefault()}
+      onCancel={(e) => {
+        // Escape pasa por onClose para que el dueno decida (p. ej. no cerrar mientras guarda)
+        e.preventDefault();
+        onClose();
+      }}
       aria-labelledby="modal-title"
       className="m-auto w-[min(34rem,calc(100vw-2rem))] rounded-(--radius-card) border border-line bg-surface p-0 text-left text-ink shadow-2xl backdrop:bg-ink/50"
     >

@@ -21,8 +21,10 @@ const TYPE: Record<Notification["type"], { icon: LucideIcon; label: string }> = 
 
 const LIMIT = 15;
 
-const when = (iso: string) =>
-  new Date(iso).toLocaleString("es-CO", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+const when = (iso?: string) => {
+  const d = iso ? new Date(iso) : null;
+  return d && !Number.isNaN(d.getTime()) ? d.toLocaleString("es-CO", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—";
+};
 
 export function NotificationList() {
   const [page, setPage] = useState(1);
@@ -91,7 +93,8 @@ export function NotificationList() {
       ) : (
         <ul className="divide-y divide-line overflow-hidden rounded-(--radius-card) border border-line bg-surface shadow-(--shadow-card)">
           {result.data.map((n) => {
-            const { icon: Icon, label } = TYPE[n.type];
+            // Un tipo desconocido no debe tumbar la lista: se muestra como aviso
+            const { icon: Icon, label } = TYPE[n.type] ?? TYPE.aviso;
             return (
               <li key={n._id} className={cn("flex items-start gap-4 p-4 sm:p-5", !n.read && "bg-primary-50/60")}>
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-primary-700">
