@@ -17,7 +17,8 @@ export const DAY_SHORT: Record<Day, string> = { lunes: "Lun", martes: "Mar", mie
 export const grade = (value?: number | null): string => (value === undefined || value === null ? "—" : (Math.round(value * 10) / 10).toFixed(1));
 
 export const date = (iso: string): string =>
-  new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric" });
+  // Las fechas del backend son dias a medianoche UTC: sin timeZone UTC se ven un dia antes en America
+  new Date(iso).toLocaleDateString("es-CO", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
 export const STATUS_LABEL: Record<EnrollmentStatus, string> = {
   activa: "En curso",

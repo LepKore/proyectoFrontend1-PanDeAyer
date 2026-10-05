@@ -18,6 +18,8 @@ export function Modal({ open, title, onClose, children }: { open: boolean; title
     <dialog
       ref={ref}
       onClose={onClose}
+      // Clic en el fondo oscuro (fuera del contenido) cierra
+      onClick={(e) => e.target === ref.current && onClose()}
       onCancel={(e) => {
         // Escape pasa por onClose para que el dueno decida (p. ej. no cerrar mientras guarda)
         e.preventDefault();
